@@ -35,11 +35,11 @@
 .
 .ds HNAPDX Appendix
 .
-.if !d HSPACE1 .ds HSPACE1 12v;1.8v;0.5v;0v
-.if !d HSPACE2 .ds HSPACE2 1v;0.5v;0.2v;0v
+.if !d HSPACE1 .ds HSPACE1 0v;0.5v;0.5v;0v
+.if !d HSPACE2 .ds HSPACE2 0.5v;0.5v;0.5v;0v
 .if !d ASPACE1 .ds ASPACE1 1.8v;1.8v;0.5v
 .if !d ASPACE2 .ds ASPACE2 0.3v;0.5v;0.2v
-.if !d USPACE1 .ds USPACE1 12v;0v
+.if !d USPACE1 .ds USPACE1 0v;0v
 .if !d USPACE2 .ds USPACE2 1v;0v
 .
 .de h@space
@@ -70,7 +70,7 @@
 .nr H2 0
 .nr H3 0
 .nr H4 0
-.ps +8
+.ps 12
 .ft B
 .HN H1 \\$@
 .h@space HSPACE2 0
@@ -86,7 +86,7 @@
 .h@space HSPACE1 1
 .nr H3 0
 .nr H4 0
-.ps +6
+.ps 12
 .ft B
 .HN H2 \\$@
 .h@space HSPACE2 1
@@ -101,7 +101,7 @@
 .pr@reset
 .h@space HSPACE1 2
 .nr H4 0
-.ps +2
+.ps 12
 .ft B
 .HN H3 \\$@
 .h@space HSPACE2 2
@@ -159,7 +159,7 @@
 .nr H2 0
 .nr H3 0
 .nr H4 0
-.ps +6
+.ps 12
 .ft B
 .in +\\n(HIu
 .nr AH \\n(HI
@@ -216,10 +216,11 @@
 .if \\n(HL>=3 \
 .	as HS .\\n(H3
 .if \\n(HL>=4 \
-.	as HS .\\n(H4
+.	as HS \\n(H4
 .ds HS-NO-DOT \\*[HS]
 .if d HN-PRINT-DOT \
-.	as HS .
+.	as HS 
+.\" delete 1.3. > 1.3
 .ie \\n[HI]>0 \
 .	ta \\n[HI]uL
 .el \
@@ -255,7 +256,7 @@
 .pr@reset
 .rs
 .h@space USPACE1 0
-.ps +4
+.ps 12
 .ft B
 .HN@no-number 1 \\$@
 .h@space USPACE2 0

@@ -175,8 +175,8 @@ nofigures && /^\.FG / && $2 != "-box" {
 			pgno = "???"
 		print ".XS\n" \
 		      ".XA " pgno " 0n\n" \
-		      ".sp 0 v\n" \
-		      "\\&\\s+0" line "\\s0\n" \
+		      ".sp 0.2v\n" \
+		      "\\&\\s+2" line "\\s0\n" \
 		      ".XE" >> tocfile
 	}
 
@@ -206,8 +206,7 @@ nofigures && /^\.FG / && $2 != "-box" {
 		H2++
 		HS = H1 "." H2
 	}
-	#HS = HS "."
-	HS = HS-NO-DOT
+	HS = HS "."
 
 	if (level <= 2) {
 		if (!appendix)
@@ -217,7 +216,7 @@ nofigures && /^\.FG / && $2 != "-box" {
 	}
 	
 	line = stripquotes(substr($0, length($1)+1))
-
+	
 	if (!appendix) {
 		if (level == 1) {
 			 #".ds toc-ps \\*[TOCFONTSIZE]\n" \
@@ -227,7 +226,7 @@ nofigures && /^\.FG / && $2 != "-box" {
 			print ".ds toc-ps \\*[TOCFONTSIZE]\n" \
 			      ".lib@subfield toc-ps 0" >>tocfile
 			print ".XS\n" \
-			      ".sp 0 v\n" \
+			      ".sp 0.3v\n" \
 			      ".XA " pgno "\n" \
 			      "\\s\\*[toc-ps]\\\n" \
 			      ".XM \\s\\*[toc-ps]" HS "\\s0\n" \
@@ -235,7 +234,7 @@ nofigures && /^\.FG / && $2 != "-box" {
 			      "\\s0\n" \
 			      ".XE\n" \
 			      ".XS\n" \
-			      ".sp 0 v\n" \
+			      ".sp 0.3v\n" \
 			      ".XE" >> tocfile
 		} else if (level == 2) {
 			if ((pgno = tocpg[HS]) == "")
@@ -260,7 +259,7 @@ nofigures && /^\.FG / && $2 != "-box" {
 			      ".XE" >> tocfile
 		}
 	}
-
+	
 	fflush(tocfile)
 
 	printf ".lf %d\n", NR
@@ -335,6 +334,7 @@ function stripquotes(input,	line, quote, sep, c, i)
 		print "mdroff: Warning! unterminated quote at line " NR > "/dev/stderr"
 
 	return line
+
 }
 
 '
@@ -369,7 +369,7 @@ usage()
 
 	EOF
 }
-grotbl=""
+
 gropost="grops"
 precmdpipe="mdpre"
 grocmdpipe="GROFF_TMAC_PATH=\"$MDTMACPATH\" groff \${GROFFOPTS}"
@@ -386,7 +386,7 @@ do
 	p) GROFFOPTS="$GROFFOPTS -p";;
 	r) GROFFOPTS="$GROFFOPTS -r $OPTARG";;
 	s) GROFFOPTS="$GROFFOPTS -s";;
-	t) grocmdpipe="tbl | $grocmdpipe";;
+	t) GROFFOPTS="$GROFFOPTS -t";;
 	G) GROFFOPTS="$GROFFOPTS -G";;
 	R) GROFFOPTS="$GROFFOPTS -R";;
 	T) case $OPTARG in
@@ -397,8 +397,6 @@ do
 	*) usage; exit 1;;
 	esac
 done
-
-#grocmdpipe="$grotbl | $grocmdpipe"
 
 shift $((OPTIND-1))
 
